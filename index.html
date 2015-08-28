@@ -94,6 +94,9 @@ body {
     height: 200px;
 }
     </style>
+<script type="text/javascript" src="http://lukesign.qiniudn.com/jquery.min.js"></script>
+<script type="text/javascript" src="http://lukesign.qiniudn.com/jquery.wshare.js"></script>
+<script type="text/javascript" src="http://lukesign.qiniudn.com/sm/soundmanager2-nodebug-jsmin.js"></script>
 </head>
 <body>
     <div id="loading">正在加载...</div>
@@ -107,9 +110,6 @@ body {
 <!-- 指定全局的分享图片 -->
 <input id="wsPic" type="hidden" value="http://lukesign.qiniudn.com/social.png">
 
-<script type="text/javascript" src="http://lukesign.qiniudn.com/jquery.min.js"></script>
-<script type="text/javascript" src="http://lukesign.qiniudn.com/jquery.wshare.js"></script>
-<script type="text/javascript" src="http://lukesign.qiniudn.com/sm/soundmanager2-nodebug-jsmin.js"></script>
 <script type="text/javascript">
 (function(a,b){"use strict";var c=function(){var a=[["requestFullscreen","exitFullscreen","fullscreenchange","fullscreen","fullscreenElement"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitfullscreenchange","webkitIsFullScreen","webkitCurrentFullScreenElement"],["mozRequestFullScreen","mozCancelFullScreen","mozfullscreenchange","mozFullScreen","mozFullScreenElement"]];for(var c=0,d=a.length;c<d;c++){var e=a[c];if(e[1]in b)return e}}();if(!c)return a.screenfull=!1;var d="ALLOW_KEYBOARD_INPUT"in Element,e={init:function(){return b.addEventListener(c[2],function(a){e.isFullscreen=b[c[3]],e.element=b[c[4]],e.onchange(a)}),this},isFullscreen:b[c[3]],element:b[c[4]],request:function(a){a=a||b.documentElement,a[c[0]](d&&Element.ALLOW_KEYBOARD_INPUT),b.isFullscreen||a[c[0]]()},exit:function(){b[c[1]]()},toggle:function(a){this.isFullscreen?this.exit():this.request(a)},onchange:function(){}};a.screenfull=e.init()})(window,document)
 </script>
@@ -191,9 +191,9 @@ function loopWin(loopList, time, callback) {
         infoWindow.redraw();
         i++;
         if( loopList[i] ) {
-            var time = loopList[i].timeout || 2000;
+            var time = loopList[i].timeout || 4000;
         } else {
-            var time = 2000;
+            var time = 4000;
         }
         timeout = setTimeout(loopWinInner, time);
     }
@@ -208,32 +208,33 @@ function panZoom_GTC() {
             var marker = new BMap.Marker(GZ_GTC);
             map.addOverlay(marker);
             marker.setAnimation(BMAP_ANIMATION_BOUNCE);
-            setTimeout(panZoom_JYU, 1000);
+            setTimeout(panZoom_JYU, 5000);
         }, GZ_GTC);
-    }, 800);
+    }, 1800);
 }
 
 function panZoom_JYU() {
     zoomTo(13, 2000, function() {
         map.panTo(new BMap.Point(MZ_JYU.lng, MZ_JYU.lat));
         setTimeout(function() {
-            zoomTo(16, 800, function() {
+            zoomTo(16, 1500, function() {
                 var marker = new BMap.Marker(MZ_JYU);
                 map.addOverlay(marker);
                 marker.setAnimation(BMAP_ANIMATION_BOUNCE);
-                setTimeout(panZoom_HEY, 1000);
+                setTimeout(panZoom_HEY, 5000);
             });
-        }, 1000);
+        }, 2000);
     });
 }
 
 function panZoom_HEY() {
-    zoomTo(13, 1000, function() {
+    zoomTo(13, 2000, function() {
         map.panTo(new BMap.Point(GD_HYS.lng, GD_HYS.lat));
         setTimeout(function() {
             var start = new BMap.Point(MZ_JYU.lng, MZ_JYU.lat);
             var end   = new BMap.Point(GZ_GTC.lng, GZ_GTC.lat);
-            var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: false}});
+            //var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: false}});
+            var driving2 = new BMap.TransitRoute(map, {renderOptions:{map: map, autoViewport: false}});
             driving2.search(start, end);
             setTimeout(function() {
                 var between = [
@@ -249,13 +250,13 @@ function panZoom_HEY() {
                     },
                     {
                         title: '茫茫人海中， 寻得佳人·',
-                        content: '<img src="images/s.jpg" width="500" height="375" alt="heart" />',
+                        content: '<img src="images/find.jpeg" width="200" height="166" alt="heart" />',
                         point: MZ_JYU
                     }
                 ];
-                loopWin(between, 2000, showPhotos);
-            }, 2000);
-        }, 1000);
+                loopWin(between, 4000, showPhotos);
+            }, 4000);
+        }, 2000);
     });
 }
 
@@ -267,38 +268,68 @@ function showPhotos() {
             var photos = [
                 {
                     title: '一起做的小船',
-                    content: '<img src="images/jiniantang.jpg" width="500" height="373" alt="boat" />',
+                    content: '<img src="images/boat.jpeg" width="400" height="297" alt="boat" />',
                     point: SHA
                 },
                 {
                     title: '最爱的小黄人',
-                    content: '<img src="images/chenjiaci.jpg" width="500" height="373" alt="小黄人" />',
-                    point: {lng:114.076598,  lat: 22.55431}
+                    content: '<img src="images/huang.jpeg" width="400" height="488" alt="小黄人" />',
+                    point: SHA
                 },
                 {
-                    title: '杭州',
-                    content: '<img src="images/dianying.jpg" width="500" height="373" alt="南京" />',
+                    title: '杭州偷拍',
+                    content: '<img src="images/hangzhou.jpeg" width="300" height="400" alt="hangzhou" />',
                     point: {lng: 120.175302,  lat:  30.356675 }
                 },
                 {
                     title: '南京',
-                    content: '<img src="images/dianying.jpg" width="500" height="373" alt="南京" />',
+                    content: '<img src="images/nanjing.jpeg" width="500" height="375" alt="南京" />',
                     point: {lng: 118.813902,  lat: 32.158331}
                 },
                 {
+                    title: '哈尔滨',
+                    content: '<img src="images/haerbin.jpeg" width="500" height="375" alt="haerbin" />',
+                    point: {lng: 126.503972,  lat:  45.887288}
+                },
+                {
                     title: '澳门',
-                    content: '<img src="images/dianying.jpg" width="500" height="373" alt="南京" />',
+                    content: '<img src="images/aomen.jpeg" width="300" height="400" alt="aomen" />',
                     point: {lng: 113.573547, lat:  22.148382}
                 },
                 {
-                    title: '哈尔滨',
-                    content: '<img src="images/dianying.jpg" width="500" height="373" alt="南京" />',
-                    point: {lng: 126.503972,  lat:  45.887288}
+                    title: '生日',
+                    content: '<img src="images/birthday.jpeg" width="400" height="422" alt="birthday" />',
+                    point: SHA
+                },
+                {
+                    title: '油画',
+                    content: '<img src="images/hua.jpeg" width="400" height="533" alt="hua" />',
+                    point: SHA
+                },
+                {
+                    title: '公园',
+                    content: '<img src="images/park.jpeg" width="400" height="482" alt="park" />',
+                    point: SHA
+                },
+                {
+                    title: '宜家看看家具',
+                    content: '<img src="images/yijia2.jpeg" width="400" height="533" alt="hua" />',
+                    point: SHA
+                },
+                {
+                    title: '看完房子弹个琴',
+                    content: '<img src="images/qin.jpeg" width="400" height="300" alt="hua" />',
+                    point: SHA
+                },
+                {
+                    title: '结婚啦',
+                    content: '<img src="images/marry.jpeg" width="600" height="508" alt="hua" />',
+                    point: SHA
                 }
               ];
-            loopWin(photos, 2500, wannaTo);
+            loopWin(photos, 5000, wannaTo);
         });
-    }, 1000);
+    }, 2000);
 }
 
 function wannaTo() {
@@ -334,59 +365,62 @@ function wannaTo() {
                     point: {lng: 11.603655, lat: 48.239985 }
                 }
             ];
-        loopWin(wanna, 1000, showMarkerText);
+        loopWin(wanna, 3000, showMarkerText);
         }, 1000);
     });
 }
 
 var markerText = [
-{ lng : 133.603748, lat :  25.482789 },
-{ lng : 133.603748, lat :  24.745746 },
-{ lng : 133.640542, lat :  23.868971 },
-{ lng : 133.640542, lat :  23.326402 },
-{ lng : 133.603748, lat :  22.679182 },
-{ lng : 133.530158, lat :  22.200292 },
-{ lng : 134.781175, lat :  24.745746 },
-{ lng : 134.74438, lat :  24.409251 },
-{ lng : 134.707585, lat :  23.801275 },
-{ lng : 134.670791, lat :  23.360379 },
-{ lng : 134.670791, lat :  22.747458 },
-{ lng : 135.443477, lat :  22.781583 },
-{ lng : 136.289753, lat :  22.747458 },
-{ lng : 137.209618, lat :  23.767413 },
-{ lng : 137.761537, lat :  24.745746 },
-{ lng : 138.460634, lat :  24.846516 },
-{ lng : 139.122937, lat :  24.240662 },
-{ lng : 139.049347, lat :  23.564056 },
-{ lng : 138.681401, lat :  23.020216 },
-{ lng : 137.87192, lat :  22.917997 },
-{ lng : 137.136029, lat :  23.835128 },
-{ lng : 140.410747, lat :  24.375552 },
-{ lng : 140.59472, lat :  23.97045 },
-{ lng : 141.183434, lat :  23.326402 },
-{ lng : 141.772147, lat :  22.747458 },
-{ lng : 142.287272, lat :  23.835128 },
-{ lng : 141.588174, lat :  23.428307 },
-{ lng : 141.845736, lat :  24.442942 },
-{ lng : 143.023163, lat :  24.510296 },
-{ lng : 143.023163, lat :  24.038057 },
-{ lng : 142.949574, lat :  23.597971 },
-{ lng : 142.875985, lat :  23.156386 },
-{ lng : 142.839191, lat :  22.542528 },
-{ lng : 143.575082, lat :  22.8157 },
-{ lng : 144.237385, lat :  22.917997 },
-{ lng : 143.464699, lat :  23.733542 },
-{ lng : 144.090207, lat :  23.767413 },
-{ lng : 143.243931, lat :  24.510296 },
-{ lng : 143.943028, lat :  24.341843 },
-{ lng : 145.304428, lat :  24.274398 },
-{ lng : 145.488401, lat :  23.767413 },
-{ lng : 145.709169, lat :  23.224419 },
-{ lng : 146.408266, lat :  22.849807 },
-{ lng : 147.144158, lat :  22.508342 },
-{ lng : 147.843255, lat :  22.747458 },
-{ lng : 147.88005, lat :  23.835128 },
-{ lng : 148.137612, lat :  24.442942 }
+{ lng : 130.461259, lat :  22.587383},
+{ lng : 130.38767, lat :  21.730489},
+{ lng : 130.498053, lat :  20.972117},
+{ lng : 130.498053, lat :  20.172117},
+{ lng : 130.498053, lat :  19.572117},
+{ lng : 131.785864, lat :  22.655705},
+{ lng : 131.74907, lat :  21.799234},
+{ lng : 131.601891, lat :  21.110297},
+{ lng : 131.528302, lat :  20.418109},
+{ lng : 131.491507, lat :  19.757598},
+{ lng : 132.300988, lat :  19.583314},
+{ lng : 132.300988, lat :  19.583314},
+{ lng : 133.51521, lat :  19.478652},
+{ lng : 135.134172, lat :  22.723992},
+{ lng : 134.508664, lat :  22.211},
+{ lng : 134.324691, lat :  21.558481},
+{ lng : 134.361486, lat :  20.695369},
+{ lng : 134.582253, lat :  20.175091},
+{ lng : 135.170967, lat :  19.827257},
+{ lng : 136.054037, lat :  20.175091},
+{ lng : 136.495572, lat :  21.282839},
+{ lng : 135.796475, lat :  22.27951},
+{ lng : 135.097378, lat :  22.655705},
+{ lng : 135.097378, lat :  22.655705},
+{ lng : 137.562615, lat :  22.108172},
+{ lng : 137.783383, lat :  21.420726},
+{ lng : 137.856972, lat :  20.695369},
+{ lng : 137.930561, lat :  20.105586},
+{ lng : 138.519275, lat :  21.282839},
+{ lng : 138.776837, lat :  22.347986},
+{ lng : 138.519275, lat :  21.248347},
+{ lng : 139.917469, lat :  22.313752},
+{ lng : 139.770291, lat :  21.558481},
+{ lng : 139.733496, lat :  20.764604},
+{ lng : 139.733496, lat :  20.314005},
+{ lng : 140.542977, lat :  22.484835},
+{ lng : 141.389253, lat :  22.587383},
+{ lng : 140.248621, lat :  21.351799},
+{ lng : 141.278869, lat :  21.282839},
+{ lng : 140.469388, lat :  20.140343},
+{ lng : 141.242075, lat :  20.244564},
+{ lng : 143.04501, lat :  22.450636},
+{ lng : 142.824242, lat :  21.799234},
+{ lng : 142.787448, lat :  20.868396},
+{ lng : 143.265777, lat :  20.140343},
+{ lng : 143.817696, lat :  19.896886},
+{ lng : 144.737561, lat :  20.487471},
+{ lng : 144.88474, lat :  21.764865},
+{ lng : 144.921534, lat :  22.27951},
+{ lng : 143.707313, lat :  19.896886}
 
     ];
 
@@ -428,9 +462,9 @@ function showMarkerText() {
         zoomTo(6, 1000, function() {
             loopAddMarker(markerText, function() {
                 setTimeout(function() {
-                    slideDown('theEnd', 1000, function() {
-                        var theEndText = '<div id="theEndText">执子之手，与子偕老。<br />' + 
-                                         '<button data-toggle="wshare" data-type="weibo">分享到微博</button>' + 
+                    slideDown('theEnd', 5000, function() {
+                        var theEndText = '<div id="theEndText">Happy 1st Anniversary！<br />' + 
+                                         //'<button data-toggle="wshare" data-type="weibo">分享到微博</button>' + 
                                          '<button onclick="window.location.reload();">再看一次</button></div>';
                         document.getElementById('theEnd').innerHTML = theEndText;
                     });
@@ -483,7 +517,7 @@ var map;
 function initMap() {
     map = new BMap.Map("map");
     var point = new BMap.Point(MP_CEN.lng, MP_CEN.lat);
-    map.centerAndZoom(point, 4);
+    map.centerAndZoom(point, 5);
     map.disableDragging();
     map.disableDoubleClickZoom();
     init();
@@ -495,7 +529,7 @@ function init() {
     document.getElementById('theEnd').innerHTML = '';
     map.setMapType(BMAP_NORMAL_MAP);
     var point = new BMap.Point(MP_CEN.lng, MP_CEN.lat);
-    map.centerAndZoom(point, 4);
+    map.centerAndZoom(point, 5);
     map.clearOverlays();
     map.reset();
     MUSIC.play();
@@ -511,28 +545,28 @@ function loadScript() {
 
 window.onload = function() {
     var imglist = [
-        'images/ticket.jpg',
-        'images/beijingroad.jpg',
-        'images/chenjiaci.jpg',
-        'images/chenjiaci1.jpg',
-        'images/chenjiaci2.jpg',
-        'images/dianying.jpg',
-        'images/dress1.jpg',
-        'images/dress2.jpg',
-        'images/jiniantang.jpg',
-        'images/leave.jpg',
-        'images/s.jpg',
-        'images/sea.jpg',
-        'images/you.jpg',
+		'images/find.jpeg',
+		'images/boat.jpeg',
+		'images/huang.jpeg',
+		'images/hangzhou.jpeg',
+		'images/aomen.jpeg',
+		'images/birthday.jpeg',
+		'images/haerbin.jpeg',
+		'images/hua.jpeg',
+		'images/marry.jpeg',
+		'images/nanjing.jpeg',
+		'images/park.jpeg',
+		'images/qin.jpeg',
+		'images/yijia2.jpeg',
         'images/wannato/germany.jpeg',
         'images/wannato/paris.jpeg',
         'images/wannato/rome.jpeg',
-        'images/wannato/swit.jpeg',
+        'images/wannato/swit.jpeg'
     ];
 
     soundManager.setup({
-        url: 'http://lukesign.qiniudn.com/sm/',
-        //url: 'sm/',
+        //url: 'http://lukesign.qiniudn.com/sm/',
+        url: 'sm/',
         onready: initMP3
     });
 
